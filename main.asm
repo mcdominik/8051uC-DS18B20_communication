@@ -51,7 +51,7 @@ f_display:
 	mov a,r7
 	cjne a,#0d,bridge
 	
-				;dodatnia
+				;posivite
 	clr p0.6
 	mov a,r6  
 	rrc a
@@ -67,7 +67,7 @@ ustaw_0_plus:
 	mov b,#100d
 	div ab
 	
-	check_zeroS:				;obsluga wyswietlacza
+	check_zeroS:				;handles display
 	cjne	a,#0d,check_oneS
 	clr p0.7
 	clr p0.5
@@ -85,7 +85,7 @@ ustawione:
 	mov b,#10d
 	div ab
 	
-	check_zero_plus:				;obsluga wyswietlacza
+	check_zero_plus:				;handles display
 	cjne	a,#0d,check_one_plus
 	mov	p1,#00111111b
 	ljmp	dziesiatki_plus
@@ -118,9 +118,9 @@ check_7_plus:
 	mov	p1,#00000111b
 	ljmp	dziesiatki_plus
 
-bridge:				;niewiadoma
+bridge:				;unknown
 mov a,r7
-	cjne a,#0d,ujemna
+	cjne a,#0d,negative
 	
 check_8_plus:
 	cjne	a,#8d,check_9_plus
@@ -171,7 +171,7 @@ check_8j_plus:
 check_9j_plus:
 	mov	p2,#11101111b
 ljmp done
-ujemna:	
+negative:	
 	mov	p0,#01000000b
 	mov a,r6  
 	cpl a   
@@ -187,7 +187,7 @@ ustaw_0:
 	mov b,#10d
 	div ab
 	
-	check_zero:				;obsluga wyswietlacza
+	check_zero:				;handles display
 	cjne	a,#0d,check_one
 	mov	p1,#00000000b
 	ljmp	dziesiatki
