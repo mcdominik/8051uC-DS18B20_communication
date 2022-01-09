@@ -7,20 +7,20 @@ clr p0.7
 clr p0.5
 ljmp 	1000h
 ORG 	1000h
-powtorz:
+repeat:
 	clr 	p0.0
 	setb 	p0.0
 	mov 	a,#0AAh
 	mov 	r0,#0d
 	lcall	START
-	ljmp 	powtorz
+	ljmp 	repeat
 START:
-	lcall 	f_wyslij
-	lcall 	f_czytaj
-	lcall 	wyswietlacz
+	lcall 	f_send
+	lcall 	f_read
+	lcall 	f_display
 	ret
 
-f_wyslij:
+f_send:
 	inc 	r0
 	clr 	p0.1
 	rrc 	a
@@ -28,16 +28,16 @@ f_wyslij:
 	setb 	p0.1
 	cjne 	r0,#8d,f_wyslij
 	ret	
-f_czytaj:
+f_read:
 clr 	a
 mov 	r0,#0d
-razy_8:	
+times_8:	
 inc 	r0
 clr 	p0.1
 mov 	c,p0.2
 rrc 	a
 setb 	p0.1
-cjne 	r0,#08d,razy_8
+cjne 	r0,#08d,times_8
 mov 	r6,a
 mov 	a,#0d
 clr 	p0.1
@@ -47,16 +47,16 @@ setb 	p0.1
 mov 	r7,a
 clr	p0.0
 ret
-wyswietlacz:
+f_display:
 	mov a,r7
-	cjne a,#0d,lacznik
+	cjne a,#0d,bridge
 	
 				;dodatnia
 	clr p0.6
 	mov a,r6  
 	rrc a
 	jnc calkowita_plus
-;	dec a
+	dec a
 	mov	p3,#01101101b
 	ljmp ustaw_0_plus
 	calkowita_plus:
@@ -118,7 +118,7 @@ check_7_plus:
 	mov	p1,#00000111b
 	ljmp	dziesiatki_plus
 
-lacznik:				;niewiadoma
+bridge:				;niewiadoma
 mov a,r7
 	cjne a,#0d,ujemna
 	
