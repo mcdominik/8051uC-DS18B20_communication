@@ -1,4 +1,1 @@
-
-
-
-Communication microcontroller (8051) with ds18b20 temperature sensor.
+Microcontroller (8051) and ds18b20 temperature sensor communication
